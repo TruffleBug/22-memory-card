@@ -37,18 +37,20 @@ export default function App() {
   console.log('randomNums', randomNums)
 
   useEffect(() => {
-    const pokemonArray = [];
-    randomNums.forEach(async (num) => {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${num}`) 
-      const json = await response.json();
-      pokemonArray.push({
-        id: num,
-        name: json.forms[0].name,
-        imgURL: json.sprites.front_default
-      })
-    })
-    setGeneratedPokemons(pokemonArray)
-    console.log('generatedPokes', generatedPokemons)
+    const wrapperFunction = async () => {
+      const pokemonArray = [];
+      for (let i=0; i < randomNums.length; i++) {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomNums[i]}`) 
+        const json = await response.json();
+        pokemonArray.push({
+          id: randomNums[i],
+          name: json.forms[0].name,
+          imgURL: json.sprites.front_default
+        })
+      };
+      setGeneratedPokemons(pokemonArray);
+    };
+    wrapperFunction();
   }, [randomNums])
 
   return (

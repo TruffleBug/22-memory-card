@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-export default function Gamecards({ randomNums, generatedPokemons, setGeneratedPokemons, clickedCards, setClickedCards, currScore, gameNum, setGameNum }) {
+export default function Gamecards({ randomNums, generatedPokemons, setGeneratedPokemons, clickedCards, setClickedCards, currScore, gameNum, setGameNum}) {
 
-
+    console.log('generatedPokemons gamecards', generatedPokemons)
     const card = generatedPokemons.map(p => {
         return (
             <section className="gamecard" key={p.name} onClick={() => handleClick(p.name)}>
@@ -16,6 +16,7 @@ export default function Gamecards({ randomNums, generatedPokemons, setGeneratedP
         if (!clickedCards.includes(name)) {
             clickedCards.push(name)
             setClickedCards([...clickedCards])
+            console.log('handleClick generatedPokemons', generatedPokemons)
             setGeneratedPokemons(shufflePokemon(generatedPokemons))
         } else {
             handleGameOver()
@@ -37,7 +38,6 @@ export default function Gamecards({ randomNums, generatedPokemons, setGeneratedP
         alert(`Game Over \nScore: ${currScore}`)
         setClickedCards([]);
         setGameNum(gameNum += 1)
-        // ON ALERT CLOSE, GENERATE NEW ARRAY OF 12 RANDOM NUMBERS
     };
 
     return (

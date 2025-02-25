@@ -6,10 +6,13 @@
 
 .instructions {
     font-size: 1.5rem;
+    color: gold;
 }
 
 .score {
     font-size: 1.8rem;
+    letter-spacing: 0.2rem;
+    font-weight: bold;
 }
 
 .name {
