@@ -1,6 +1,5 @@
-import { useState } from "react";
-import GameoverModal from "./GameoverModal";
-import WinModal from "./WinModal";
+import { useState, useRef } from "react";
+import NewGameButton from "./NewGameButton";
 
 export default function Gamecards({ 
     generatedPokemons, 
@@ -12,9 +11,8 @@ export default function Gamecards({
     setGameNum,
     }) {
 
-    const [showGameoverModal, setShowGameoverModal] = useState(false);
-    const [showWinModal, setShowWinModal] = useState(false);
-
+    const gameoverModal = useRef(null);
+    const winModal = useRef(null);
 
     console.log('generatedPokemons gamecards', generatedPokemons)
     const card = generatedPokemons.map(p => {
@@ -32,15 +30,15 @@ export default function Gamecards({
             setClickedCards([...clickedCards]);
             if(clickedCards.length == 12) { 
                 console.log('You win');
-                setShowWinModal(true);
+                winModal.current.showModal()
                 return;
             };
             // console.log('handleClick generatedPokemons', generatedPokemons);
             setGeneratedPokemons(shufflePokemon(generatedPokemons));
         } else { 
             console.log('Game Over')
-            setShowGameoverModal(true)
-        }
+            gameoverModal.current.showModal()
+        };
         console.log('clickedCards =', clickedCards);
     };
     
@@ -56,24 +54,27 @@ export default function Gamecards({
     return (
         <>
             {card}
-            <WinModal
-                showWinModal={showWinModal}
-                setShowWinModal={setShowWinModal}
-                setShowGameoverModal={setShowGameoverModal}
-                currScore={currScore}
-                setClickedCards={setClickedCards}
-                gameNum={gameNum}
-                setGameNum={setGameNum}
-            />
-            <GameoverModal 
-                showGameoverModal={showGameoverModal} 
-                setShowGameoverModal={setShowGameoverModal}
-                currScore={currScore}
-                setClickedCards={setClickedCards}
-                gameNum={gameNum}
-                setGameNum={setGameNum}
-                setShowWinModal={setShowWinModal}
-            />
+            <dialog className='win modal' ref={winModal}>
+                <p>You Win!</p>
+                <NewGameButton 
+                    winModal={winModal}
+                    gameoverModal={gameoverModal}
+                    setClickedCards={setClickedCards}
+                    gameNum={gameNum}
+                    setGameNum={setGameNum}
+                />
+            </dialog>
+            <dialog className='gameover modal' ref={gameoverModal}>
+                <p>Game Over</p>
+                <p>Score: {currScore}</p>
+                <NewGameButton 
+                    winModal={winModal}
+                    gameoverModal={gameoverModal}
+                    setClickedCards={setClickedCards}
+                    gameNum={gameNum}
+                    setGameNum={setGameNum}
+                />
+            </dialog>
         </>
     )
 }

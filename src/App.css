@@ -71,3 +71,44 @@
     scale: 115%;
 }
 
+.modal {
+    width: 70%;
+    background-color: rgba(255, 255, 255, 0.538);
+    border: none;
+    box-shadow: 0px 0px 16px gray;
+    border-radius: 8px;
+    padding: 1rem;
+    backdrop-filter: blur(5px)!important;
+    animation: 0.3s fade-in;
+}
+
+@keyframes fade-in {
+    from {opacity: 0}
+    to {opacity: 1}
+}
+
+.modal p {
+    font-size: 1.5rem;
+    text-shadow: none;
+}
+
+.newGameButton {
+    font-family: "Annie Use Your Telescope", serif;
+    font-size: 1.2rem;
+    box-shadow: 2px 2px 5px gray;
+    background-color: rgba(255, 217, 0, 0.589);
+    border: none;
+    border-radius: 8px;
+    height: 3rem;
+    width: 8rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.newGameButton:hover {
+    background-color: rgba(255, 217, 0);
+    position: relative;
+    scale: 110%;
+    font-weight: bold;
+}
