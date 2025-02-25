@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import Gamecards from './Gamecards'
+import { Rings } from 'react-loader-spinner';
 
 export default function App() {
   const [randomNums, setRandomNums] = useState([]);
@@ -12,15 +13,10 @@ export default function App() {
   const currScore = clickedCards.length;
   if(currScore > highScore) setHighScore(currScore);
 
-  // generate array of 12 numbers
-  // let randomNums = [];
-  // for(let i = 0; i < 12; i++) {
-  //   let randomNum = Math.floor(Math.random() * (151) + 1);
-  //   if(!randomNums.includes(randomNum)) {
-  //     randomNums.push(randomNum);
-  //   };
-  // };
-  // setRandomNums(randomNums)
+  let isLoading = false;
+  if(generatedPokemons.length !== 12) {
+    isLoading = true;
+  };
 
   useEffect(() => {
     let newNums = [];
@@ -51,17 +47,38 @@ export default function App() {
       setGeneratedPokemons(pokemonArray);
     };
     wrapperFunction();
-  }, [randomNums])
+  }, [randomNums])  
 
-  return (
-    <>
-      <h1 className='title'>Memory Game</h1>
-      <h2 className='instructions'>Click on each image only once to win the game</h2>
-      <section className='score current'>Current Score: {currScore}</section>
-      <section className='score high'>High Score: {highScore}</section>
-      <section className='gameboard'>
-        <Gamecards randomNums={randomNums} generatedPokemons={generatedPokemons} setGeneratedPokemons={setGeneratedPokemons} clickedCards={clickedCards} setClickedCards={setClickedCards} currScore={currScore} gameNum={gameNum} setGameNum={setGamNum} />
-      </section>
-    </>
-  )
+  if(isLoading === true) {
+    return (
+      <Rings
+        visible={true}
+        height="180"
+        width="180"
+        color="#ffd700"
+        ariaLabel="rings-loading"
+        wrapperClass="loadingIcon"
+      />
+    )
+  } else {
+      return (
+        <>
+        <h1 className='title'>Memory Game</h1>
+        <h2 className='instructions'>Click on each image only once to win the game</h2>
+        <section className='score current'>Current Score: {currScore}</section>
+        <section className='score high'>High Score: {highScore}</section>
+        <section className='gameboard'>
+          <Gamecards 
+            generatedPokemons={generatedPokemons} 
+            setGeneratedPokemons={setGeneratedPokemons} 
+            clickedCards={clickedCards} 
+            setClickedCards={setClickedCards} 
+            currScore={currScore} 
+            gameNum={gameNum} 
+            setGameNum={setGamNum} 
+          />
+        </section>
+      </>
+    )
+  }
 }
